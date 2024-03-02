@@ -27,6 +27,6 @@ public class CheckPhoneExitsValidator
    */
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    return customerService.findByPhoneNumber(value).isEmpty();
+    return customerService.findByPhoneNumber(value).isPresent();
   }
 }

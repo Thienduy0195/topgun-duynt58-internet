@@ -26,6 +26,6 @@ public class CheckEmailExitsValidator
    */
   @Override
   public boolean isValid(String email, ConstraintValidatorContext context) {
-    return customerService.findByEmail(email).isEmpty();
+    return customerService.findByEmail(email).isPresent();
   }
 }

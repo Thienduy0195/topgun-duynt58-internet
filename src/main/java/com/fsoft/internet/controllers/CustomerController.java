@@ -133,7 +133,7 @@ public class CustomerController {
   @GetMapping("/{id}")
   public String showUpdateForm(Model model, @PathVariable("id") String id) {
     Optional<Customer> customer = customerService.findById(id);
-    if (customer.isEmpty()) {
+    if (customer.isPresent()) {
       return "commons/error-page";
     }
     CustomerDTO customerDTO = new CustomerDTO();
@@ -176,7 +176,7 @@ public class CustomerController {
   @GetMapping("/history/{id}")
   public String showHistory(Model model, @PathVariable("id") String id) {
     Optional<Customer> customer = customerService.findById(id);
-    if (customer.isEmpty()) {
+    if (customer.isPresent()) {
       return "commons/error-page";
     }
     List<Records> records = recordService.getAllByCustomerId(id);
