@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan
+        base-package="com.fsoft.internet" annotation-config="true" />
+    <mvc:annotation-driven />
+    <!-- Add support for reading web resources: css, images, js, etc ... -->
+    <mvc:resources mapping="/resources/**" location="/resources/css/"
+        cache-period="31556926" />
+    <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    <!-- Step 1: Define Database DataSource / connection pool -->
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName"
+            value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+        <property name="url"
+            value="jdbc:sqlserver://localhost;database=internet_management_system;Encrypt=True;TrustServerCertificate=True;sendTimeAsDateTime=false" />
+        <property name="username" value="sa" />
+        <property name="password" value="12345" />
+    </bean>
+    <!-- Creates the transaction manager bean that integrates the used JPA provider
+        with the Spring transaction mechanism. -->
+    <bean id="transactionManager"
+        class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory"
+            ref="entityManagerFactory" />
+    </bean>
+    <!-- Enables annotation-driven transaction management. -->
+    <tx:annotation-driven />
+    <!-- Specifies the default settings that are compatible with Hibernate. -->
+    <bean id="hibernateJpaVendorAdapter"
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+    <!-- Creates the bean that creates the JPA entity manager factory. -->
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter"
+            ref="hibernateJpaVendorAdapter" />
+        <property name="packagesToScan" value="com.fsoft.internet.entities" />
+        <property name="jpaProperties">
+            <props>
+                <!-- Configures the used database dialect. This allows Hibernate to create
+                    SQL that is optimized for the used database. -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2012Dialect</prop>
+                <!-- Specifies the action that is invoked to the database when the Hibernate
+                    SessionFactory is created or closed. -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- Configures the naming strategy that is used when Hibernate creates
+                    new database objects and schema elements -->
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <!-- If the value of this property is true, Hibernate writes all SQL
+                    statements to the console. -->
+                <prop key="hibernate.show_sql">true</prop>
+                <!-- If the value of this property is true, Hibernate will use prettyprint
+                    when it writes SQL to the console. -->
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+    </bean>
+    <jpa:repositories
+        base-package="com.fsoft.internet.repositories" />
+</beans>
