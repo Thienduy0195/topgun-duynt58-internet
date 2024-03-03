@@ -106,11 +106,12 @@ public class ComputerController {
   @GetMapping("/{id}")
   public String showUpdateForm(Model model, @PathVariable("id") String id) {
     Optional<Computer> computer = computerService.findById(id);
-    ComputerDTO computerDTO = new ComputerDTO();
     if (computer.isPresent()) {
-      computerDTO = modelMapper.map(computer.get(), ComputerDTO.class);
-    }
-    model.addAttribute("computer", computerDTO);
+    	ComputerDTO computerDTO = modelMapper.map(computer.get(), ComputerDTO.class);
+        model.addAttribute("computer", computerDTO);
+    }else {
+		return "commons/error-page";
+	}
     return "computer/edit-computer";
   }
 
@@ -126,7 +127,6 @@ public class ComputerController {
     Computer computer = modelMapper.map(computerDTO, Computer.class);
     computer.setComputerId(id);
     computerService.createOrUpdate(computer);
-
     redirectAttributes.addFlashAttribute("message",
         "Update computer successfully!");
     return "redirect:/computer/list";

@@ -1,7 +1,9 @@
 package com.fsoft.internet.dto;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -16,7 +18,7 @@ public class CustomerDTO implements Validator {
   static final String REGEX_PHONE = "^(090|091|032|033|034|035|036|037|038|039|070|079|077|076|078|083|084|085|081|082|056|058|059|\\\\(84\\\\)\\\\+90|\\\\(84\\\\)\\\\+91)[0-9]{7}$";
   static final String REGEX_EMAIL = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 
-//  @NotEmpty(message = "Code is required!")
+  @NotEmpty(message = "Code is required!")
   @Pattern(regexp = REGEX_ID, message = "Wrong format CUSxxxxx")
   @CheckIdExistsConstraint
   private String customerId;

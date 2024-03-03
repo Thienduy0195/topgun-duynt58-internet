@@ -13,6 +13,8 @@
 </style>
 
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <body style="background-color: #121212;">
 
 	<%@ include file="../commons/header.jsp"%>
@@ -22,26 +24,27 @@
 			<h3 class="text-center text-white">ADD NEW CUSTOMER</h3>
 			<form:form
 				action="${pageContext.request.contextPath}/customer/create"
-				method="post" modelAttribute="customer">
+				method="post" modelAttribute="customer" id="createForm">
 				<div class="row my-4">
 					<div class="col-md-3" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 
 							<form:input path="customerId" type="text"
-								class="form-control input" id="full-name"
+								class="form-control input" id="customerId"
 								placeholder="Họ và tên" autocomplete="off" />
-							<label for="full-name" style="color: white"> Code
+							<label for="customerId" style="color: white"> Code
 								(CUSxxxxx) <span class="text-danger">*</span>
 							</label>
 							<form:errors path="customerId" cssClass="text-danger" />
+							<span id="error-customerId" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="col-md-6" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 
 							<form:input path="name" type="text" class="form-control input"
-								id="full-name" placeholder="Họ và tên" autocomplete="off" />
-							<label for="full-name" style="color: white"> Full name <span
+								id="name" placeholder="Họ và tên" autocomplete="off" />
+							<label for="name" style="color: white"> Full name <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="name" cssClass="text-danger" />
@@ -51,9 +54,9 @@
 					<div class="col-md-3" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 							<form:input path="phoneNumber" type="text"
-								class="form-control input" id="phone-number"
+								class="form-control input" id="phoneNumber"
 								placeholder="Họ và tên" autocomplete="off" />
-							<label for="phone-number" style="color: white"> Phone <span
+							<label for="phoneNumber" style="color: white"> Phone <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="phoneNumber" cssClass="text-danger" />
@@ -108,5 +111,30 @@
 	<%@ include file="../commons/footer.jsp"%>
 </body>
 
+
+<%--<script>--%>
+<%--	$(document).ready(function() {--%>
+<%--		$('#createForm').submit(function(event) {--%>
+
+<%--			let check = false;--%>
+<%--			// Prevent form submission--%>
+<%--			event.preventDefault();--%>
+<%--			// Perform validation--%>
+<%--			let customerId = $('#customerId').val();--%>
+<%--			if (!customerId) {--%>
+<%--				check = true;--%>
+<%--				$('#error-customerId').text('Required!123');--%>
+<%--			}--%>
+<%--			let email = $('#email').val();--%>
+<%--			if (!email) {--%>
+<%--				check = true;--%>
+<%--			}--%>
+<%--			if(check){--%>
+<%--				return;--%>
+<%--			}--%>
+<%--			this.submit();--%>
+<%--		});--%>
+<%--	});--%>
+<%--</script>--%>
 
 </html>

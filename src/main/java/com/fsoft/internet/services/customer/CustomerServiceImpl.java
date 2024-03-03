@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements ICustomerService {
     try {
       customerRepository.deleteById(id);
     } catch (Exception e) {
-      System.out.println("error add repo");
+      System.out.println("error at delete item in repo");
     }
     return customerRepository.findById(id).get().getDeleteStatus() == 1;
   }

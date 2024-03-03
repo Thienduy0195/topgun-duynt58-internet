@@ -67,7 +67,6 @@ public class PaymentController {
     payment.setCustomer(customer);
     System.out.println(payment.toString());
     paymentService.createOrUpdate(payment);
-
     redirectAttributes.addFlashAttribute("message",
         "Add new payment successfully!");
     return "redirect:/payment/list";

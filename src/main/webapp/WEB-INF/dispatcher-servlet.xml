@@ -27,7 +27,7 @@
         <property name="driverClassName"
             value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
         <property name="url"
-            value="jdbc:sqlserver://localhost;database=internet_management_system;Encrypt=True;TrustServerCertificate=True;sendTimeAsDateTime=false" />
+            value="jdbc:sqlserver://localhost;database=INTERNET_DB;Encrypt=True;TrustServerCertificate=True;sendTimeAsDateTime=false" />
         <property name="username" value="sa" />
         <property name="password" value="12345" />
     </bean>

@@ -28,11 +28,11 @@ public class CheckIdExitsValidator
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     if (value.startsWith("CUS")) {
-      return customerService.findById(value).isPresent();
+      return customerService.findById(value).isEmpty();
     } else if (value.startsWith("COM")) {
-      return computerService.findById(value).isPresent();
+      return computerService.findById(value).isEmpty();
     }
-    return productService.findById(value).isPresent();
+    return productService.findById(value).isEmpty();
   }
 
 }
