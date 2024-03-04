@@ -29,8 +29,11 @@
 					<form:input path="computerId" type="text"
 						class="form-control input" id="computerId"
 						placeholder="Enter computer code" style="padding-top: 10px"
-						autocomplete="off" value="${computer.computerId}" />
+						autocomplete="off" value="${computer.computerId}"
+						onblur="validateByJS(this.id,'computerId',this.value)"
+					/>
 					<form:errors path="computerId" cssClass="text-danger" />
+					<span id="computerId1" class="text-danger"></span>
 				</div>
 
 				<div class="textbox mb-4">
@@ -40,8 +43,11 @@
 					<form:input path="location" type="text" class="form-control input"
 						id="location" placeholder="Enter the location"
 						style="padding-top: 10px" autocomplete="off"
-						value="${computer.location}" />
+						value="${computer.location}"
+						onblur="validateByJS(this.id,'location',this.value)"
+					/>
 					<form:errors path="location" cssClass="text-danger" />
+					<span id="location1" class="text-danger"></span>
 					<div></div>
 
 				</div>
@@ -61,4 +67,62 @@
 	</div>
 	<%@ include file="../commons/footer.jsp"%>
 </body>
+
+<script>
+
+	var valid = [];
+	function validateByJS(id, nameInput, valueInput) {
+		const index = valid.findIndex(obj => obj.hasOwnProperty(id));
+		let checkVar = checkValidate(valueInput,nameInput)
+		console.log(checkVar)
+		if (checkVar !== "") {
+			if (index !== -1) {
+				valid[index][id]= true
+				console.log(valid)
+			}else {
+				valid = [...valid, {[id]: true }];
+				console.log(valid);
+			}
+			document.getElementById(id+"1").innerText= checkVar
+		} else {
+			console.log(index)
+			if (index !== -1) {
+				valid[index][id]= false
+				document.getElementById(id+"1").innerText=""
+				console.log(valid);
+			}
+		}
+		let check = true
+		valid.forEach(item=> {
+
+			if(item[Object.keys(item)[0]]){
+				document.getElementById("submitBtn").disabled = true
+				check= false
+			}
+
+		})
+		if(check) {
+			document.getElementById("submitBtn").disabled = false
+		}
+	}
+
+	function checkValidate(value, nameValidate) {
+
+		const computerCodeRegex = /^PRO\d{3}$/;
+
+		if(value === "" || value === 0 ) {
+			return "Required!";
+		}
+
+		if(nameValidate === 'computerId') {
+			if(!value.match(computerCodeRegex)) {
+				return "Wrong format COMxxx";
+			}
+		}
+
+		return "";
+
+	}
+
+</script>
 </html>

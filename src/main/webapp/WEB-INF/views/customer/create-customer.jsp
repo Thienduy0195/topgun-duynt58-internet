@@ -30,36 +30,44 @@
 						<div class="form-floating textbox mb-4">
 
 							<form:input path="customerId" type="text"
-								class="form-control input" id="customerId"
-								placeholder="Họ và tên" autocomplete="off" />
+								class="form-control input" id="customerId" name="customerId"
+								placeholder="Họ và tên" autocomplete="off" 
+								onblur="validateByJS(this.id,'customerId',this.value)"
+								/>
 							<label for="customerId" style="color: white"> Code
 								(CUSxxxxx) <span class="text-danger">*</span>
 							</label>
 							<form:errors path="customerId" cssClass="text-danger" />
-							<span id="error-customerId" class="text-danger"></span>
+							<span id="customerId1" class="text-danger"></span>
 						</div>
 					</div>
-					<div class="col-md-6" style="padding-right: 15px">
+					<div class="col-md-5" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 
 							<form:input path="name" type="text" class="form-control input"
-								id="name" placeholder="Họ và tên" autocomplete="off" />
+								id="name" placeholder="Họ và tên" autocomplete="off" name="name"
+								onblur="validateByJS(this.id,'name',this.value)"
+								/>
 							<label for="name" style="color: white"> Full name <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="name" cssClass="text-danger" />
+							<span id="name1" class="text-danger"></span>
 						</div>
 					</div>
 
-					<div class="col-md-3" style="padding-right: 15px">
+					<div class="col-md-4" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 							<form:input path="phoneNumber" type="text"
-								class="form-control input" id="phoneNumber"
-								placeholder="Họ và tên" autocomplete="off" />
+								class="form-control input" id="phoneNumber" name="phoneNumber"
+								placeholder="Họ và tên" autocomplete="off" 
+								onblur="validateByJS(this.id,'phoneNumber',this.value)"
+								/>
 							<label for="phoneNumber" style="color: white"> Phone <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="phoneNumber" cssClass="text-danger" />
+							<span id="phoneNumber1" class="text-danger"></span>
 						</div>
 					</div>
 
@@ -69,22 +77,28 @@
 					<div class="col-md-6" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
 							<form:input path="email" type="email" class="form-control input"
-								id="email" placeholder="example@gmail.com" autocomplete="off" />
+								id="email" placeholder="example@gmail.com" autocomplete="off" name="email"
+								onblur="validateByJS(this.id,'email',this.value)"
+								/>
 							<label for="email" style="color: white"> Email <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="email" cssClass="text-danger" />
+							<span id="email1" class="text-danger"></span>
 						</div>
 					</div>
 
 					<div class="col-md-6" style="padding-right: 15px">
 						<div class="form-floating textbox mb-4">
-							<form:input path="address" type="text" class="form-control input"
-								id="address" placeholder="Họ và tên" autocomplete="off" />
+							<form:input path="address" type="text" class="form-control input" name="address"
+								id="address" placeholder="Họ và tên" autocomplete="off" 
+								onblur="validateByJS(this.id,'address',this.value)"
+								/>
 							<label for="address" style="color: white"> Address <span
 								class="text-danger">*</span>
 							</label>
 							<form:errors path="address" cssClass="text-danger" />
+							<span id="address1" class="text-danger"></span>
 						</div>
 					</div>
 				</div>
@@ -92,13 +106,12 @@
 				<div class="row my-4">
 					<div class="col-md-4 my-4"></div>
 					<div class="col-md-4" style="text-align: center; width: 100%">
-						<button type="submit" name="button"
+						<button type="submit" name="button" id="submitBtn"
 							class="btn btn-primary btn-responsive w-25" style="height: 40px">Add
 							new</button>
 
 						<a href="${pageContext.request.contextPath}/customer/list"
-							class="w-25 btn btn-outline-light btn-responsive
-        w-25 ms-3"
+							class="w-25 btn btn-outline-light btn-responsive w-25 ms-3"
 							style="height: 40px"> Cancel </a>
 
 					</div>
@@ -111,30 +124,73 @@
 	<%@ include file="../commons/footer.jsp"%>
 </body>
 
+<script>
+	
+	var valid = [];
+	function validateByJS(id, nameInput, valueInput) {
+	    const index = valid.findIndex(obj => obj.hasOwnProperty(id));
+	    let checkVar = checkValidate(valueInput,nameInput)
+	    console.log(checkVar)
+	    if (checkVar !== "") {
+	        if (index !== -1) {
+	            valid[index][id]= true
+	            console.log(valid)
+	        }else {
+	            valid = [...valid, {[id]: true }];
+	            console.log(valid);
+	        }
+	        document.getElementById(id+"1").innerText= checkVar
+	    } else {
+	        console.log(index)
+	        if (index !== -1) {
+	            valid[index][id]= false
+	            document.getElementById(id+"1").innerText=""
+	            console.log(valid);
+	        }
+	    }
+	    let check = true
+	    valid.forEach(item=> {
+	
+	        if(item[Object.keys(item)[0]]){
+	            document.getElementById("submitBtn").disabled = true
+	            check= false
+	        }
+	
+	    })
+	    if(check) {
+	        document.getElementById("submitBtn").disabled = false
+	    }
+	}
+	
+	function checkValidate(value, nameValidate) {
+	
+	    const phoneRegex = /^(090|091|\(84\)\+90|\(84\)\+91)[0-9]{7}$/
+	    const customerCodeRegex = /^CUS\d{5}$/;
+	    const serviceCodeRegex = /^PRO\d{3}$/;
+	    const positiveIntegerRegex = /^[1-9]\d*$/;
+	    const time24hFormatRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+		    
+		    if(value === "" || value === 0 ) {
+	    	        return "Required!";
+	    	    }
+	    	    	
+	        if(nameValidate === 'customerId') {
+	        	if(!value.match(customerCodeRegex)) {
+	                return "Wrong format CUSxxxxx";
+	            }
+	        }
+	
+		    if(nameValidate === 'phoneNumber') {
+		    	if(!value.match(phoneRegex)) {
+		            return "Wrong format 0(+84)90|91xxxxxxx";
+		        }
+		    }
 
-<%--<script>--%>
-<%--	$(document).ready(function() {--%>
-<%--		$('#createForm').submit(function(event) {--%>
+	    return "";
+	
+	}
 
-<%--			let check = false;--%>
-<%--			// Prevent form submission--%>
-<%--			event.preventDefault();--%>
-<%--			// Perform validation--%>
-<%--			let customerId = $('#customerId').val();--%>
-<%--			if (!customerId) {--%>
-<%--				check = true;--%>
-<%--				$('#error-customerId').text('Required!123');--%>
-<%--			}--%>
-<%--			let email = $('#email').val();--%>
-<%--			if (!email) {--%>
-<%--				check = true;--%>
-<%--			}--%>
-<%--			if(check){--%>
-<%--				return;--%>
-<%--			}--%>
-<%--			this.submit();--%>
-<%--		});--%>
-<%--	});--%>
-<%--</script>--%>
+</script>
+
 
 </html>
