@@ -13,7 +13,6 @@
 		<hibernate.validator>5.4.1.Final</hibernate.validator>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.9.4</jackson.version>
-		<!-- AspectJ -->
 		<aspectj.version>1.9.19</aspectj.version>
 	</properties>
 	<dependencies>
@@ -164,13 +163,6 @@
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>6.2.2.jre8</version>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version> <!-- Đảm bảo chọn phiên bản phù hợp với
-			MySQL server bạn đang sử dụng -->
 		</dependency>
 
 		<!-- API, java.xml.bind module -->
